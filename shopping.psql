@@ -1,5 +1,0 @@
-create table shopping(id int);
-insert into shopping values(1);
-insert into shopping values(2);
-insert into shopping values(3);
-select * from shopping;
