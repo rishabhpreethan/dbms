@@ -6,6 +6,7 @@
 <br>
 
 * Table
+
 | building | roomnumber | capacity |
 | -------- | ---------- | -------- |
 | Packard  | 101        | 500      |
@@ -13,6 +14,7 @@
 | Taylor   | 3128       | 70       |
 | Watson   | 100        | 30       |
 | Watson   | 120        | 50       |
+
 <br>
 
 ```
