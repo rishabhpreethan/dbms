@@ -21,6 +21,7 @@
 select distinct building from classroom where capacity < 100;
 ```
 * O/P
+
 | building |
 | --- |
 | Painter |
