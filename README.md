@@ -6,6 +6,7 @@
 <br>
 
 * Table
+<br>
 | building | roomnumber | capacity |
 | --- | --- | --- |
 | Packard | 101 | 500 |
