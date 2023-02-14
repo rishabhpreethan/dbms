@@ -68,9 +68,6 @@ select S.name as studentname, budget as deptbudget from student budget as S, dep
 | Tanaka | 90000.00 |
 
 ### AND and OR :
-```
-select name from instructor 1, department D where D.dept_name = 1.dept_name and (I.dept_name = 'Finance' or building in ('Watson', 'Taylor'));
-```
 
 * Instructor :
 
@@ -100,6 +97,10 @@ select name from instructor 1, department D where D.dept_name = 1.dept_name and 
 | History | Painter | 50000 |
 | Music | Packard | 80000 |
 | Physics | Watson | 70000 |
+
+```
+select name from instructor 1, department D where D.dept_name = 1.dept_name and (I.dept_name = 'Finance' or building in ('Watson', 'Taylor'));
+```
 
 * O/P :
 
