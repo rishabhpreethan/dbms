@@ -118,14 +118,14 @@ select name from instructor 1, department D where D.dept_name = 1.dept_name and 
 
 | course id | title | deptname | credits |
 | --- | --- | --- | --- |
-| BIO-101 | Intro. to Biology Biology 4 |
-| BIO-301 | Genetics Biology 4 |
+| BIO-101 | Intro. to Biology Biology | 4 |
+| BIO-301 | Genetics Biology | 4 |
 | BIO-399 | Computational Biology | Biology | 3 |
 | CS-101 | Intro. to Computer Science | Comp. Sci. | 4 |
 | CS-190 | Game Design | Comp. Sci. |
 | CS-315 | Robotics | Comp. Sci. | 3 |
 | CS-319 | Image Processing | Comp. Sci. | 3 |
-| CS-347 | Database System Concepts Comp. Sci. | 3 |
+| CS-347 | Database System Concepts | Comp. Sci. | 3 |
 | EE-181 | Intro. to Digital Systems | Elec. Eng. | 3 |
 | FIN-201 | Investment Banking | Finance | 3 |
 | HIS-351 | World History | History | 3 |
