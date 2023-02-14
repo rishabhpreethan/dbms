@@ -38,6 +38,7 @@ select name, budget from student, department where student.dept_name = departmen
 * O/P :
 
 | name | budget |
+| --- | --- |
 | Brandt | 50000.00 |
 | Peltier | 70000.00 |
 | Levy | 70000.00 |
@@ -56,6 +57,7 @@ select S.name as studentname, budget as deptbudget from student budget as S, dep
 * O/P :
 
 | studentname | deptbudget |
+| --- | --- |
 | Brandt | 50000.00 |
 | Peltier | 70000.00 |
 | Levy | 70000.00 |
