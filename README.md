@@ -14,6 +14,7 @@
 
 <br>
 
+
 ### Select distinct:
 * If there are elements that are repeated then it is selected only once
 <br>
@@ -28,6 +29,8 @@ select distinct building from classroom where capacity < 100;
 | Painter |
 | Taylor |
 | Watson |
+
+<br>
 
 
 ### Cartesian Product :
@@ -48,6 +51,8 @@ select name, budget from student, department where student.dept_name = departmen
 | Bourikas | 85000.00 |
 | Tanaka | 200.00 |
 
+<br>
+
 
 ### Rename as operation :
 ```
@@ -66,6 +71,9 @@ select S.name as studentname, budget as deptbudget from student budget as S, dep
 | Aoi | 85000.00 |
 | Bourikas | 85000.00 |
 | Tanaka | 90000.00 |
+
+<br>
+
 
 ### AND and OR :
 
@@ -113,6 +121,9 @@ select name from instructor 1, department D where D.dept_name = 1.dept_name and 
 | Brandt |
 | Kim |
 
+<br>
+
+
 ### String operations :
 * department :
 
@@ -146,3 +157,6 @@ select title from course where course_id like '-0. %';
 | Investment Banking |
 | World History |
 | Physical Principles |
+
+<br>
+
