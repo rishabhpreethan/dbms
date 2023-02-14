@@ -5,7 +5,7 @@
 * If there are elements that are repeated then it is selected only once
 <br>
 
-* Table
+* Table : classroom
 
 | building | roomnumber | capacity |
 | -------- | ---------- | -------- |
