@@ -144,7 +144,7 @@ select name from instructor 1, department D where D.dept_name = 1.dept_name and 
 | PHY-101 | Physical Principles | Physics | 4 |
 
 ```
-select title from course where course_id like '-0. %';
+select title from course where course_id like '___-%';
 ```
 
 * O/P :
