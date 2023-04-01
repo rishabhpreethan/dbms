@@ -160,3 +160,94 @@ select title from course where course_id like '___-%';
 
 <br>
 
+
+
+### First normal form
+* the domains of all attributes of R are atomic
+> a domain is atomic if its elements are considered to be indivisible units
+* examples of non atomic domains
+    * set of names, composite attributes
+    * identification numbers like CS101 can be broken into parts
+* non atomic values complicate storage and encourage redundant storage of data
+    * eg: set of accounts stored with each customer and set of owners stored with each account
+    * <b>we assume all relations are in 1NF</b>
+* best way to deal with it is decompostion
+<br>
+
+
+### Functional dependencies
+
+| A | B |
+| --- | --- |
+| 1 | 4 |
+| 1 | 5 |
+| 3 | 7 |
+
+* here A -> B does not hold, but B -> A holds
+* but tuples like (2,4) or (3,5) or (4,7) cannot be added
+
+##### Functional dependencies allow us to express constraints that cannot be expressed using superkeys:
+>inst_dept(<u>ID</u>, name, salary, <u>dept_name</u>, building, budget)
+
+* we expect these functional depencdencies to hold:
+```dept_name -> building```
+```dept_name -> budget```
+```ID -> building```
+
+* but would not expect the following to hold:
+```dept_name -> salary```
+* <b>Note: </b> a specific instance of a relation schema may satisfy a functional depedency even if the functional depedency does not hold on all legal instances
+* eg:- a specific instance of instructor may by chance satisfy:
+```name -> ID```
+
+##### Trivial dependency:
+* ```ID, name -> ID```
+* ```name -> name```
+> in general ```a -> b``` is trivial if b is a subset of a
+<br>
+
+##### Armstrong's Axioms
+* Reflexivity: if b is a subset of a then ```a -> b```
+* Augmentation: if ```a -> b``` then ```ca -> cb```
+* Transitivity: if ```a -> b``` and ```b -> c``` then ```a -> c```
+* additional derived rules:
+    * union: if ```a -> b``` holds and ```a -> c``` holds then ```a -> bc``` holds
+    * decomposition: if ```a -> bc``` holds then ```a ->b``` holds then ```a -> c``` holds
+    * pseudotransitivity: if ```a -> b``` holds and ```cb -> d``` holds then ```ac -> d``` holds
+<br>
+
+
+### Algorithm to determine closure
+```
+while (changes to result)do
+    for each ```b -> c``` in F do
+        begin
+            if ((b is a subset of result) then (result <- result U c))
+        end 
+```
+<br>
+
+
+### Extraneous attributes
+* ```F = { A -> C, AB -> C}```
+    * B is extraneous in ```AB -> C```
+    * A+ = AC
+    * the relation remains the same even after removing B
+* ```F = {A -> C, AB -> CD}```
+    * C is extraneous as A -> C
+    * AB+ = ABCD
+    * the relation remains the same even after removing C
+<br>
+
+
+### Equivalence of sets of functional dependencies
+* F and G are two functional dependency sets
+* F and G are equivalent if (F+ = G+) <=> (F+ -> G and G+ -> F)
+<br>
+
+
+### Lossless join decomposition
+* conditions
+    * R1 U R2 = R
+    * R1 intersection R2 != null
+    * R1 intersection R2 -> R2 or R1 intersection R2 -> R2
