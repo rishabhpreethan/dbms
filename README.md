@@ -251,6 +251,8 @@ while (changes to result)do
     * R1 U R2 = R
     * R1 intersection R2 != null
     * R1 intersection R2 -> R2 or R1 intersection R2 -> R2
+<br>
+
 
 ### MVC Architecture
 <img src="/images/mvc.png?raw=true" width="800" height="400">
@@ -276,3 +278,218 @@ while (changes to result)do
 * close the cursor
 * close the connection
 <img src="/images/psycopg.png?raw=true" width="800" height="400">
+<br>
+
+
+### Steps to execute SQL commands
+* use the psycopg2.connect() method with the required arhuments to connect postgreSQl. it would return a connection object if the connection established successfully.
+* create a cursor object using the cursor() method of connection object
+* the execute() methods run the SQL commands and return the result
+* use cursor.feetchall() or fetchone() or fetchmany() to read query result
+* use commit() to make the changes in database persistent or use rollback() to revert the database changes
+* use cursor.close() and connection.close() method to close the cursor and postgreSQL connection
+<img src="/images/create.png?raw=true" width="800" height="400">
+<br>
+
+
+### Executing INSERT statement from python
+<img src="/images/insert.png?raw=true" width="800" height="400">
+<br>
+
+
+### Executing DELETE statement from python
+<img src="/images/delete.png?raw=true" width="800" height="400">
+<br>
+
+
+### Executing UPDATE statement from python
+<img src="/images/update.png?raw=true" width="800" height="400">
+<br>
+
+
+### Executing SELECT statement from python
+<img src="/images/select.png?raw=true" width="800" height="400">
+<br>
+
+
+### Web and internet dev using python
+##### python offers several frameworks such as bottle.py, Flask, CherryPy, Pyramid, Django and web2py for web dev
+* Python offers many choices for web dev
+    * frameworks such as Django and Pyramid
+    * micro frameworks such as Flask and Bottle
+    * advanced content management systems such as Plone and django CMS
+* Pythons standard library supports many internet protocols
+    * HTML and XML
+    * JSON
+    * E-mail processing
+    * Support for FTP, IMAP and other internet protocols
+    * easy to use socket interface
+* The package index has more libraries
+    * Requests : a powerful HTTP client library
+    * Beautiful Soup : an HTML parser that can handle all sorts of HTML
+    * Feedparser : for parsing RSS/Atom feeds
+    * Paramiko : implementing the SSH2 protocol
+    * Twisted Python : a framework for sychronous network programming
+<br>
+
+
+### Python : Flask
+* code segment in python
+```python
+from flask import Flask, render_template, request
+import psycopg2
+
+app = Flask(
+    __name__,
+    template_folder = 'templates'
+)
+# functions to be added here for different actions
+if __name__ == '__main__':
+    # run the flask app
+    app.run(
+        host = '127.0.0.1',
+        debug = True,
+        port = 5000
+    )
+```
+<br>
+
+* source code for index.html
+```html
+<html>
+    <head>
+        <title>Candidate email database</title>
+    </head>
+    <body>
+        <h2>Candidate email database</h2>
+        <a href="/add">Add email</a><br><br>
+        <a href="/viewall">View email</a>
+    </body>
+</html>
+```
+<br>
+
+* source code for rendering index.html and add.html pages
+```python
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/add")
+def add():
+    return render_template("add.html")
+```
+<br>
+
+<img src="/images/render.png?raw=true" width="800" height="400">
+<br>
+
+* source code for add.html
+```html
+<html>
+    <head>
+        <title>add email</title>
+    </head>
+    <body>
+        <h2>Email Information</h2>
+        <form action="/savedetails" method="post">
+            <table>
+                <tr><td>CNO</td><td><input type="text" name="cno" required></td></tr>
+                <tr><td>Name</td><td><input type="text" name="name" required></td></tr>
+                <tr><td>Email</td><td><input type="text" name="email" required></td></tr>
+                <tr><td><input type="submit" value="Submit"></td></tr>
+            </table>
+        </form>
+    </body>
+</html>
+```
+<br>
+
+* savedetails() function for add.html (in python):
+```python
+@app.route("/savedetails",methods=["POST"])
+def savedetails():
+    cno = request.form["cno"]
+    name = request.form["name"]
+    email = request.form["email"]
+    conn = None
+    try:
+        conn = psycopg2.connect(database="mydb", user="myuser", password = "mypass", host = "127.0.0.1", port = "5432")
+        cur = conn.cursor()
+        cur.execute("insert into candidate values(%s, %s, %s)",(cno,name,email))
+        conn.commit()
+        cur.close()
+    except(Exception, psycopg2.DatabaseError) as error:
+        render_template("fail.html")
+    finally:
+        if conn is not None:
+            conn.close()
+    return render_template("success.html")
+```
+<br>
+
+<img src="/images/out.png?raw=true" width="800" height="400">
+
+
+
+* viewall() function for viewall.html (in python)
+```python
+@app.route("/viewall")
+def viewall():
+    conn=None
+    try:
+        conn = psycopg2.connect(database="mydb", user="myuser", password = "mypass", host = "127.0.0.1", port = "5432")
+        cur = conn.cursor()
+        cur.execute("select cno,name,email from candidate")
+        results = cur.fetchall()
+        cur.close()
+    except(Exception, psycopg2.DatabaseError) as error:
+        render_template("fail.html")
+    finally:
+        conn.close()
+    return render_template("viewall.html",rows = results)
+```
+<br>
+
+
+* source code for viewall.html
+```html
+<html>
+    <head>
+        <title>Email List</title>
+    </head>
+    <body>
+        <h3>Email List</h3>
+        <table border=5>
+            <tr>
+                <th>CNO</td><th>Name</td><th>Email</td>
+            </tr>
+            {% for row in rows}
+                <tr>
+                    <td>{{row[0]}}</td> <td>{{row[1]}}</td> <td>{{row[2]}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/"> go home</a>
+    </body>
+</html>
+```
+<br>
+<img src="/images/fin.png?raw=true" width="800" height="400">
+<br>
+
+
+### Architecture of Mobile App
+* # tiers
+    * presentation
+    * business
+    * data
+* data layer is ofen split between
+    * local data
+    * remote data
+* needs customization for platform
+    * Android
+    * iOS
+    * Windows
+<img src="/images/mobapparch.png?raw=true" width="800" height="400">
+<br>
