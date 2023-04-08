@@ -251,3 +251,28 @@ while (changes to result)do
     * R1 U R2 = R
     * R1 intersection R2 != null
     * R1 intersection R2 -> R2 or R1 intersection R2 -> R2
+
+### MVC Architecture
+<img src="/images/mvc.png?raw=true" width="800" height="400">
+<br>
+
+
+### Python modules for PostgreSQL
+* psycopg2
+* pg8000
+* py-postgresql
+* PyGreSQL
+* ocpgdb
+* bpgsql
+* SQLAlchemy (needs any of the above to be installed separately)
+<br>
+
+
+### Steps to access PosgreSQL from python using psycopg
+* create connection
+* create cursor
+* execute the query
+* commit/rollback
+* close the cursor
+* close the connection
+<img src="/images/psycopg.png?raw=true" width="800" height="400">
