@@ -480,7 +480,7 @@ def viewall():
 
 
 ### Architecture of Mobile App
-* # tiers
+* tiers
     * presentation
     * business
     * data
