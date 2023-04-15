@@ -299,7 +299,7 @@ while (changes to result)do
 
 ### Executing DELETE statement from python
 <img src="/images/delete.png?raw=true" width="800" height="400">
-<br>
+<br>   
 
 
 ### Executing UPDATE statement from python
@@ -484,7 +484,7 @@ def viewall():
     * presentation
     * business
     * data
-* data layer is ofen split between
+* data layer is often split between
     * local data
     * remote data
 * needs customization for platform
@@ -493,3 +493,104 @@ def viewall():
     * Windows
 <img src="/images/mobapparch.png?raw=true" width="800" height="400">
 <br>
+
+
+### Backup and recovery
+##### Backup
+* A backup of a database is a representative copy of data containing all necessary contents of a database such as data files and control files
+	* Unexpected database failures especially those due to factors beyond our control are unavoidable. Hence it is important to eep a backup of the entire database
+	* There are 2 types of backup 
+		* Physical backup: A copy of logical database files such as data, control files, log files and archived redo logs
+		* Logical backup: A copy of logical data that is extracted from a database consisting of tables procedures, views, functions, etc..
+<br>
+
+##### Recovery
+* It is the process of restoring the database to its latest knows consistent state after a system failure occurs
+	* A database log records all transactions in a sequence.
+	* A typical log files contains info about transactions about transactions to execute transaction states and modified values
+<br>
+
+##### Why is backup necessary
+* Disaster recovery - Data loss can occur due to cvarious reasons like hardware failures, malware attacks environmental and physical factors or a simoke human error
+* Client side changes 
+	*  Clients may want to modify the existing application to serve their business's dynamic needs 
+	*   Developers might need to restore a previous version of the database in order to address such requirements
+* Auditing - From an auditing perspective you need to know what your data looked like at some point in the past
+* Downtime - Without backup, system failures lead to data loss which in turn leads to application downtime
+<br>
+
+##### Types of backup strategies
+###### Full Backup
+* It backs everything up
+* It is a complete copy, which stores all the objects of the database: tables procedures, functions, views, indexes etc.
+* Full backup can restore all components of the database system as it was at the time of crash
+> A full backup must be done at least once before any of the other type of backup
+* The frequency of  afull backup depends on the type of application. Eg: A full backup is done on a daily basis for applications in which one or more of the following is/are true:
+	* Either 24/7 availabilty is not a requirement or system availability is not affected as a conssequence of backups
+	* A complete backup takes a minimum amount of media: backup isnt too large
+	* Backup/system administrators may not be available on a daily basis, and therefore a priary goal is to reduce to a bare minimum the amount of media required to complete a restore
+<br>
+
+
+###### Incremental Backup
+* It targets only thosae files or items that have changed since the last backup
+* This often results in smaller backups and needs shorter duration to complete the backup process
+* For instance, a 2TB database may only have a 5% change during the day. With incremental database backups the amount backed up is typically only a little more than the actual amount of changed data in the database
+* For most organizations a full backup is done once a week and incremental backups are done for the rest of the time
+
+| Fri | Sat| Sun | Mon | Tue | Wed | Thurs |
+| --- | --- | --- | --- | --- | --- | --- |
+| full | incremental | incremental | incremental | incremental | incremental | incremental |
+> This ensures a min backup window during peak activity times with a longer backup window during non peak activity times
+<br>
+
+
+###### Differential Backup
+* It backs up all the changes that have occurred since the most recent full backup regardless of what backups have occurred in between
+* This "rolls up" multiple changes into a single backup job which sets the basis for the next incremental backup
+	* As a differential backup does not back up everything, this backup process usually runs quicker than a full backup
+	* The longer the age of a differential backup, the larger teh size of its backup window
+* To evaluate how differential backups might work within an environment:
+
+| Fri | Sat| Sun | Mon | Tue | Wed | Thurs |
+| --- | --- | --- | --- | --- | --- | --- |
+| full | incremental | incremental | incremental | differential | incremental | incremental |
+
+* The incremental backup on saturday backs up all files that have changed since the full backup on friday. likewise all changes since saturday and sunday is backed up on sunday and mondays incremental backup respectively
+* On tuesday a differential backup is performed. This backs up all files that have changed since the full backup on friday. A recovery on Wednesday should only require data from the full and differential backups, <b>skipping the sat/sun/mon incremental backups</b>
+<br>
+
+
+### Hot Backup
+* It refers to keeping a database up and running while the backup is performed concurrently
+* In systems where high availability is a requirement hot backup is preferable wherever possible
+<br>
+
+
+### ACID properties
+* Atomicity - all or nothing
+* Consistency - preserves database integrity
+* Isolation - execute as if they were run alone
+* Durabilty - results are not lost by a failure
+<br>
+* concurrency control guarantees I, contributes to C
+* application program guarantees C
+* recovery subsystem guarantees A & D, contributes to C
+<br>
+
+
+### Storage structure
+* Volatile sotrage
+	* does not survive system crashes
+	* eg: main memory, cache memory 
+* Non-volatile storage
+	* survives system crashes
+	* eg: disk, tape, flash memory, non-volatile(battery packed) Ram
+	* but may still fail, losing data
+* Stable storage
+	* a mythical form of storage that survives all failures
+	* approximated by maintaining multiple copies on disticnt non volatile media
+<br>
+
+
+### 
