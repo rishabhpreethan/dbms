@@ -496,7 +496,7 @@ def viewall():
 
 
 ### Backup and recovery
-#####Backup
+##### Backup
 * A backup of a database is a representative copy of data containing all necessary contents of a database such as data files and control files
 	* Unexpected database failures especially those due to factors beyond our control are unavoidable. Hence it is important to eep a backup of the entire database
 	* There are 2 types of backup 
@@ -504,7 +504,7 @@ def viewall():
 		* Logical backup: A copy of logical data that is extracted from a database consisting of tables procedures, views, functions, etc..
 <br>
 
-#####Recovery
+##### Recovery
 * It is the process of restoring the database to its latest knows consistent state after a system failure occurs
 	* A database log records all transactions in a sequence.
 	* A typical log files contains info about transactions about transactions to execute transaction states and modified values
