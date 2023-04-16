@@ -579,6 +579,19 @@ def viewall():
 <br>
 
 
+### Recovery Algorithms
+* consider transaction Ti that transfers $50 from account A to account B
+    * 2 updates: subtract 50 from A and add 50 to B
+* Transaction Ti requires updates to A and B to be output to the database
+    * a failure may occur after one of these modifications have been made but before both of them are made
+    * modifying the daatabase without ensuring that the transaction will commit may leave the database in an inconsistent state
+    * not modifying the database may result in lost updates if failure occurs just after transaction commits
+###### Recovery algorithms have 2 parts
+* action taken during normal transaction processing to ensure enough information exists to recover from failures
+* actions taken after a failure to recover the database contents to a state that ensures atmicity, consistency and durability
+<br>
+
+
 ### Storage structure
 * Volatile sotrage
 	* does not survive system crashes
@@ -593,4 +606,37 @@ def viewall():
 <br>
 
 
-### 
+### Stable storage implementation
+* maintain multiple copies of each block on separate disks
+    * copies can be at remote sites to protect against disasters such as fire or flooding
+* failure during data trasnfer can still result in inconsistent copies. Block transfer can result in:
+    * successful completion
+    * partial failure: destination block has incorrect info
+    * total failure: destination block was never updated
+* protecting storage media from failure during data transfer
+    * execute output operation as follows (assuming two copies of each block)
+        * write the info onto the first physical blcok
+        * when the first write is successful, write the same info into the second physical block
+        * the output is completed only after the second write successfully completes
+    * copies of a block may differ due to failure during output operation
+    * to recover from failure
+        * first find inconsistent blocks
+            * expensive solution: compare the two copies of every disk blcok
+            * better solution: 
+                * record in-prgress disk writes on non volatile storage
+                * use this info during recovery to find blocks that may be inconsistent and only compare copies of these
+                * used in hardware RAID systems
+        * if either copy of an inconsistent block is detected to have and error (bad checksum), overwrite it by the other copy
+        * if both have no error but are different overwrite the second block by the first block
+<br>
+
+
+### Recovery and atomicity
+* to ensure atomicity despite failutres we first output info describing the modifications to stable storage without modifying the database itself
+* Log-based Recovery Mechanisms
+    * we first present key concepts
+    * and then present the actual recovery algorithm
+* less used alternative: **Shadow paging**
+<br>
+
+
